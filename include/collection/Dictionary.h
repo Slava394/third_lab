@@ -6,7 +6,7 @@
 #include "AVLTree.h"
 
 
-template <typename K, typename T>
+template <AVLKey K, typename T>
 class Dictionary : public IDictionary<K, T>
 {
 private:

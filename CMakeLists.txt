@@ -2,20 +2,22 @@ cmake_minimum_required(VERSION 3.28.3)
 
 project(LastChance VERSION 1.0)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/collection)
 include_directories(${CMAKE_SOURCE_DIR}/include/generator)
 include_directories(${CMAKE_SOURCE_DIR}/include/gui)
 include_directories(${CMAKE_SOURCE_DIR}/include/target)
 include_directories(${CMAKE_SOURCE_DIR}/include/test)
 include_directories(${CMAKE_SOURCE_DIR}/include/type)
-
 
 set(BASE_SOURCES 
     include/collection/AVLTree.h
@@ -68,18 +70,27 @@ add_executable(Histogram
 
 target_link_libraries(Histogram Qt6::Widgets)
 
-set(TEST_SOURCES
+set(LOAD_TEST_SOURCES
     ${BASE_SOURCES}
-    include/test/Test.h
-    src/test/Test.cpp
+    include/test/LoadTest.h
+    src/test/LoadTest.cpp
 )
 
-add_executable(TestSet testSet.cpp ${TEST_SOURCES})
-add_executable(TestDictionary testDictionary.cpp ${TEST_SOURCES})
-add_executable(TestHistogram testHistogram.cpp ${TEST_SOURCES})
+add_executable(LoadTestSet loadTestSet.cpp ${LOAD_TEST_SOURCES})
+add_executable(LoadTestDictionary loadTestDictionary.cpp ${LOAD_TEST_SOURCES})
+
+set(UNIT_TEST_SOURCES
+    ${BASE_SOURCES}
+    include/test/UnitTest.h
+    src/test/UnitTest.cpp
+)
+
+add_executable(UnitTestSet unitTestSet.cpp ${UNIT_TEST_SOURCES})
+add_executable(UnitTestDictionary unitTestDictionary.cpp ${UNIT_TEST_SOURCES})
+add_executable(UnitTestHistogram unitTestHistogram.cpp ${UNIT_TEST_SOURCES})
 
 enable_testing()
 
-add_test(NAME TestSet COMMAND TestSet)
-add_test(NAME TestDictionary COMMAND TestDictionary)
-add_test(NAME TestHistogram COMMAND TestHistogram)
+add_test(NAME UnitTestSet COMMAND UnitTestSet)
+add_test(NAME UnitTestDictionary COMMAND UnitTestDictionary)
+add_test(NAME UnitTestHistogram COMMAND UnitTestHistogram)

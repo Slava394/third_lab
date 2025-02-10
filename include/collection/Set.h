@@ -6,7 +6,7 @@
 #include "AVLTree.h"
 
 
-template <typename K>
+template <AVLKey K>
 class Set : public ISet<K>
 {
 private:

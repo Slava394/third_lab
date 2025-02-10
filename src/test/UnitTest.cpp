@@ -2,7 +2,7 @@
 #include <cassert>
 #include <string>
 
-#include "Test.h"
+#include "UnitTest.h"
 #include "Sequence.h"
 #include "Set.h"
 #include "Dictionary.h"              

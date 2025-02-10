@@ -1,9 +1,21 @@
 #pragma once
 
+#include <concepts>
 #include <functional>
 
 
-template <typename K, typename T>
+
+template<typename K>
+concept AVLKey = std::copyable<K> &&
+requires(const K& a, const K& b) 
+{
+    { a < b } -> std::convertible_to<bool>;
+    { a > b } -> std::convertible_to<bool>;
+    { a == b } -> std::convertible_to<bool>;
+};
+
+
+template <AVLKey K, typename T>
 class AVLTree 
 {
 private:
