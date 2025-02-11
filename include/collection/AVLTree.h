@@ -4,7 +4,6 @@
 #include <functional>
 
 
-
 template<typename K>
 concept AVLKey = std::copyable<K> &&
 requires(const K& a, const K& b) 
