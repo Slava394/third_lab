@@ -2,11 +2,12 @@
 
 #include <initializer_list>
 
+#include "Concept.h"
 #include "IDictionary.h"
 #include "AVLTree.h"
 
 
-template <AVLKey K, typename T>
+template <Comparable K, typename T>
 class Dictionary : public IDictionary<K, T>
 {
 private:

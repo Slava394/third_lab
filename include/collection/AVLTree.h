@@ -1,20 +1,11 @@
 #pragma once
 
-#include <concepts>
 #include <functional>
 
-
-template<typename K>
-concept AVLKey = std::copyable<K> &&
-requires(const K& a, const K& b) 
-{
-    { a < b } -> std::convertible_to<bool>;
-    { a > b } -> std::convertible_to<bool>;
-    { a == b } -> std::convertible_to<bool>;
-};
+#include "Concept.h"
 
 
-template <AVLKey K, typename T>
+template <Comparable K, typename T>
 class AVLTree 
 {
 private:

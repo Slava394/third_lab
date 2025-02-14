@@ -353,17 +353,17 @@ void unitTestHistogramBasic()
 
     int count20_30 = 0, count30_40 = 0, count40_50 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 20 && interval.upper == 30)
+        if (interval.getLower() == 20 && interval.getUpper() == 30)
         {
-            count20_30 = bin.count;
+            count20_30 = bin.getCount();
         }
-        else if (interval.lower == 30 && interval.upper == 40)
+        else if (interval.getLower() == 30 && interval.getUpper() == 40)
         {
-            count30_40 = bin.count;
+            count30_40 = bin.getCount();
         }
-        else if (interval.lower == 40 && interval.upper == 50)
+        else if (interval.getLower() == 40 && interval.getUpper() == 50)
         {
-            count40_50 = bin.count;
+            count40_50 = bin.getCount();
         }
     });
 
@@ -387,7 +387,7 @@ void unitTestHistogramEmpty()
 
     int total = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        total += bin.count;
+        total += bin.getCount();
     });
 
     assert(total == 0);
@@ -411,7 +411,7 @@ void unitTestHistogramNoMatch()
 
     int total = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        total += bin.count;
+        total += bin.getCount();
     });
 
     assert(total == 0);
@@ -435,13 +435,13 @@ void unitTestHistogramSingleInterval()
 
     int count20_30 = 0, count30_40 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 20 && interval.upper == 30)
+        if (interval.getLower() == 20 && interval.getUpper() == 30)
         {
-            count20_30 = bin.count;
+            count20_30 = bin.getCount();
         }
-        else if (interval.lower == 30 && interval.upper == 40)
+        else if (interval.getLower() == 30 && interval.getUpper() == 40)
         {
-            count30_40 = bin.count;
+            count30_40 = bin.getCount();
         }
     });
 
@@ -468,7 +468,7 @@ void unitTestHistogramFullRange()
 
     int total = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        total += bin.count;
+        total += bin.getCount();
     });
 
     assert(total == 3);
@@ -492,17 +492,17 @@ void unitTestHistogramSomeEmpty()
 
     int count20_30 = 0, count30_40 = 0, count40_50 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 20 && interval.upper == 30)
+        if (interval.getLower() == 20 && interval.getUpper() == 30)
         {
-            count20_30 = bin.count;
+            count20_30 = bin.getCount();
         }
-        else if (interval.lower == 30 && interval.upper == 40)
+        else if (interval.getLower() == 30 && interval.getUpper() == 40)
         {
-            count30_40 = bin.count;
+            count30_40 = bin.getCount();
         }
-        else if (interval.lower == 40 && interval.upper == 50)
+        else if (interval.getLower() == 40 && interval.getUpper() == 50)
         {
-            count40_50 = bin.count;
+            count40_50 = bin.getCount();
         }
     });
 
@@ -530,13 +530,13 @@ void unitTestHistogramBoundaryValues()
 
     int count20_30 = 0, count30_40 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 20 && interval.upper == 30)
+        if (interval.getLower() == 20 && interval.getUpper() == 30)
         {
-            count20_30 = bin.count;
+            count20_30 = bin.getCount();
         }
-        else if (interval.lower == 30 && interval.upper == 40)
+        else if (interval.getLower() == 30 && interval.getUpper() == 40)
         {
-            count30_40 = bin.count;
+            count30_40 = bin.getCount();
         }
     });
 
@@ -563,13 +563,13 @@ void unitTestHistogramSameAge()
     
     int count20_30 = 0, count30_40 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 20 && interval.upper == 30)
+        if (interval.getLower() == 20 && interval.getUpper() == 30)
         {
-            count20_30 = bin.count;
+            count20_30 = bin.getCount();
         }
-        else if (interval.lower == 30 && interval.upper == 40)
+        else if (interval.getLower() == 30 && interval.getUpper() == 40)
         {
-            count30_40 = bin.count;
+            count30_40 = bin.getCount();
         }
     });
 
@@ -596,17 +596,17 @@ void unitTestHistogramNarrowIntervals()
 
     int count25_26 = 0, count26_27 = 0, count27_28 = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        if (interval.lower == 25 && interval.upper == 26)
+        if (interval.getLower() == 25 && interval.getUpper() == 26)
         {
-            count25_26 = bin.count;
+            count25_26 = bin.getCount();
         }
-        else if (interval.lower == 26 && interval.upper == 27)
+        else if (interval.getLower() == 26 && interval.getUpper() == 27)
         {
-            count26_27 = bin.count;
+            count26_27 = bin.getCount();
         }
-        else if (interval.lower == 27 && interval.upper == 28)
+        else if (interval.getLower() == 27 && interval.getUpper() == 28)
         {
-            count27_28 = bin.count;
+            count27_28 = bin.getCount();
         }
     });
 
@@ -635,7 +635,7 @@ void unitTestHistogramTotalCount()
 
     int totalCount = 0;
     hist.getBins().inorder([&](const Interval& interval, const HistogramBin& bin) {
-        totalCount += bin.count;
+        totalCount += bin.getCount();
     });
 
     assert(totalCount == 20);

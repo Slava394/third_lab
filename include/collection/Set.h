@@ -2,11 +2,12 @@
 
 #include <initializer_list>
 
+#include "Concept.h"
 #include "ISet.h"
 #include "AVLTree.h"
 
 
-template <AVLKey K>
+template <Comparable K>
 class Set : public ISet<K>
 {
 private:

@@ -20,11 +20,11 @@ void loadTestDictionary()
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(-1000000, 1000000);
+    std::normal_distribution<> dist(0, 500000); 
 
-    const long long startN = 5000000;      
-    const long long endN = 100000000;        
-    const long long step = 5000000;         
+    const long long startN = 5'000'000;      
+    const long long endN = 200'000'000;        
+    const long long step = 5'000'000;         
 
     for (long long N = startN; N <= endN; N += step) 
     {
@@ -32,8 +32,8 @@ void loadTestDictionary()
         auto start_time = std::chrono::high_resolution_clock::now();
         for (long long i = 0; i < N; i++) 
         {
-            int key = dist(gen);
-            int value = dist(gen);
+            int key = std::round(dist(gen));
+            int value = std::round(dist(gen));
             dict.insert(key, value);
         }
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -56,11 +56,11 @@ void loadTestSet()
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(-1000000, 1000000);
+    std::normal_distribution<> dist(0, 500000); 
 
-    const long long startN = 5000000;     
-    const long long endN = 100000000;       
-    const long long step = 5000000;        
+    const long long startN = 5'000'000;     
+    const long long endN =  200'000'000;       
+    const long long step = 5'000'000;        
 
     for (long long N = startN; N <= endN; N += step) 
     {
@@ -68,7 +68,7 @@ void loadTestSet()
         auto start_time = std::chrono::high_resolution_clock::now();
         for (long long i = 0; i < N; i++) 
         {
-            int value = dist(gen);
+            int value = std::round(dist(gen));
             set.insert(value);
         }
         auto end_time = std::chrono::high_resolution_clock::now();

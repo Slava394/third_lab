@@ -1,12 +1,12 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QCheckBox>
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QCheckBox>
 
 #include <fstream>
 #include <string>
@@ -19,7 +19,6 @@
 #include "Person.h"
 #include "Histogram.h"
 #include "Interval.h"
-
 
 OpenDialog::OpenDialog(QWidget *parent) : QDialog(parent) 
 {
@@ -93,33 +92,39 @@ void OpenDialog::onOpen()
         return;
     }
     bool useCustom = customCheckBox->isChecked() && !customIntervals.empty();
-
     if (type == "Ints") 
     {
-        Sequence<int> ints;
         std::ifstream in(fileName.toStdString());
         if (!in) 
         {
             QMessageBox::warning(this, "Error", "Cannot open file");
             return;
         }
-        int value;
-        while (in >> value) 
+        int temp;
+        bool first = true;
+        int minVal = 0, maxVal = 0;
+        while (in >> temp) 
         {
-            ints.append(value);
+            if (first) 
+            {
+                minVal = temp;
+                maxVal = temp;
+                first = false;
+            } 
+            else 
+            {
+                if (temp < minVal) 
+                {
+                    minVal = temp;
+                }
+                if (temp > maxVal) 
+                {
+                    maxVal = temp;
+                }
+            }
         }
-        in.close();
-        if (ints.getSize() == 0) 
-        {
-            QMessageBox::warning(this, "Error", "No data found");
-            return;
-        }
-        int minVal = ints[0], maxVal = ints[0];
-        for (size_t i = 0; i < ints.getSize(); i++) 
-        {
-            if (ints[i] < minVal) minVal = ints[i];
-            if (ints[i] > maxVal) maxVal = ints[i];
-        }
+        in.clear();
+        in.seekg(0);
         int numBins = 10;
         double binWidth = (maxVal == minVal) ? 1.0 : (maxVal - minVal) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
@@ -134,15 +139,19 @@ void OpenDialog::onOpen()
         {
             intervalsVec = customIntervals;
         }
-        Histogram<int> hist(ints, [](const int &i) -> double {
-            return static_cast<double>(i);
-        }, intervalsVec);
+        Histogram<int> hist([](const int &i) -> double { return static_cast<double>(i); }, intervalsVec);
+        while (in >> temp) 
+        {
+            hist.updateData(temp);
+        }
+        in.close();
         Sequence<HistogramWidget::BinData> binsData;
-        hist.getBins().inorder([&](const Interval &interval, const HistogramBin &bin) {
+        hist.getBins().inorder([&](const Interval &interval, const auto &bin) 
+        {
             HistogramWidget::BinData data;
-            data.lower = interval.lower;
-            data.upper = interval.upper;
-            data.count = bin.count;
+            data.lower = interval.getLower();
+            data.upper = interval.getUpper();
+            data.count = bin.getCount();
             binsData.append(data);
         });
         HistogramWidget *hw = new HistogramWidget();
@@ -152,7 +161,6 @@ void OpenDialog::onOpen()
     }
     else if (type == "Points (x)") 
     {
-        Sequence<Point> points;
         std::ifstream in(fileName.toStdString());
         if (!in) 
         {
@@ -160,22 +168,30 @@ void OpenDialog::onOpen()
             return;
         }
         double x, y;
+        bool first = true;
+        double minX = 0, maxX = 0;
         while (in >> x >> y) 
         {
-            points.append(Point(x, y));
+            if (first) 
+            {
+                minX = x;
+                maxX = x;
+                first = false;
+            } 
+            else 
+            {
+                if (x < minX) 
+                {
+                    minX = x;
+                }
+                if (x > maxX) 
+                {
+                    maxX = x;
+                }
+            }
         }
-        in.close();
-        if (points.getSize() == 0) 
-        {
-            QMessageBox::warning(this, "Error", "No data found");
-            return;
-        }
-        double minX = points[0].x, maxX = points[0].x;
-        for (size_t i = 0; i < points.getSize(); i++) 
-        {
-            if (points[i].x < minX) minX = points[i].x;
-            if (points[i].x > maxX) maxX = points[i].x;
-        }
+        in.clear();
+        in.seekg(0);
         int numBins = 10;
         double binWidth = (maxX - minX) / numBins;
         Sequence<Interval> intervalsVec;
@@ -190,15 +206,20 @@ void OpenDialog::onOpen()
         {
             intervalsVec = customIntervals;
         }
-        Histogram<Point> hist(points, [](const Point &p) -> double {
-            return p.x;
-        }, intervalsVec);
+        Histogram<Point> hist([](const Point &p) -> double { return p.x; }, intervalsVec);
+        while (in >> x >> y) 
+        {
+            Point p(x, y);
+            hist.updateData(p);
+        }
+        in.close();
         Sequence<HistogramWidget::BinData> binsData;
-        hist.getBins().inorder([&](const Interval &interval, const HistogramBin &bin) {
+        hist.getBins().inorder([&](const Interval &interval, const auto &bin) 
+        {
             HistogramWidget::BinData data;
-            data.lower = interval.lower;
-            data.upper = interval.upper;
-            data.count = bin.count;
+            data.lower = interval.getLower();
+            data.upper = interval.getUpper();
+            data.count = bin.getCount();
             binsData.append(data);
         });
         HistogramWidget *hw = new HistogramWidget();
@@ -208,7 +229,6 @@ void OpenDialog::onOpen()
     }
     else if (type == "Points (y)") 
     {
-        Sequence<Point> points;
         std::ifstream in(fileName.toStdString());
         if (!in) 
         {
@@ -216,22 +236,30 @@ void OpenDialog::onOpen()
             return;
         }
         double x, y;
+        bool first = true;
+        double minY = 0, maxY = 0;
         while (in >> x >> y) 
         {
-            points.append(Point(x, y));
+            if (first) 
+            {
+                minY = y;
+                maxY = y;
+                first = false;
+            } 
+            else 
+            {
+                if (y < minY) 
+                {
+                    minY = y;
+                }
+                if (y > maxY) 
+                {
+                    maxY = y;
+                }
+            }
         }
-        in.close();
-        if (points.getSize() == 0) 
-        {
-            QMessageBox::warning(this, "Error", "No data found");
-            return;
-        }
-        double minY = points[0].y, maxY = points[0].y;
-        for (size_t i = 0; i < points.getSize(); i++) 
-        {
-            if (points[i].y < minY) minY = points[i].y;
-            if (points[i].y > maxY) maxY = points[i].y;
-        }
+        in.clear();
+        in.seekg(0);
         int numBins = 10;
         double binWidth = (maxY - minY) / numBins;
         Sequence<Interval> intervalsVec;
@@ -246,15 +274,20 @@ void OpenDialog::onOpen()
         {
             intervalsVec = customIntervals;
         }
-        Histogram<Point> hist(points, [](const Point &p) -> double {
-            return p.y;
-        }, intervalsVec);
+        Histogram<Point> hist([](const Point &p) -> double { return p.y; }, intervalsVec);
+        while (in >> x >> y) 
+        {
+            Point p(x, y);
+            hist.updateData(p);
+        }
+        in.close();
         Sequence<HistogramWidget::BinData> binsData;
-        hist.getBins().inorder([&](const Interval &interval, const HistogramBin &bin) {
+        hist.getBins().inorder([&](const Interval &interval, const auto &bin) 
+        {
             HistogramWidget::BinData data;
-            data.lower = interval.lower;
-            data.upper = interval.upper;
-            data.count = bin.count;
+            data.lower = interval.getLower();
+            data.upper = interval.getUpper();
+            data.count = bin.getCount();
             binsData.append(data);
         });
         HistogramWidget *hw = new HistogramWidget();
@@ -264,7 +297,6 @@ void OpenDialog::onOpen()
     }
     else if (type == "Persons (age)") 
     {
-        Sequence<Person> persons;
         std::ifstream in(fileName.toStdString());
         if (!in) 
         {
@@ -274,23 +306,31 @@ void OpenDialog::onOpen()
         std::string name;
         int age;
         double salary;
+        bool first = true;
+        int minAge = 0, maxAge = 0;
         while (in >> name >> age >> salary) 
         {
-            persons.append(Person(name, age, salary));
+            if (first) 
+            {
+                minAge = age;
+                maxAge = age;
+                first = false;
+            } 
+            else 
+            {
+                if (age < minAge) 
+                {
+                    minAge = age;
+                }
+                if (age > maxAge) 
+                {
+                    maxAge = age;
+                }
+            }
         }
-        in.close();
-        if (persons.getSize() == 0) 
-        {
-            QMessageBox::warning(this, "Error", "No data found");
-            return;
-        }
+        in.clear();
+        in.seekg(0);
         int numBins = 10;
-        int minAge = persons[0].age, maxAge = persons[0].age;
-        for (size_t i = 0; i < persons.getSize(); i++) 
-        {
-            if (persons[i].age < minAge) minAge = persons[i].age;
-            if (persons[i].age > maxAge) maxAge = persons[i].age;
-        }
         double binWidth = (maxAge - minAge) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -304,15 +344,20 @@ void OpenDialog::onOpen()
         {
             intervalsVec = customIntervals;
         }
-        Histogram<Person> hist(persons, [](const Person &p) -> double {
-            return p.age;
-        }, intervalsVec);
+        Histogram<Person> hist([](const Person &p) -> double { return static_cast<double>(p.age); }, intervalsVec);
+        while (in >> name >> age >> salary) 
+        {
+            Person p(name, age, salary);
+            hist.updateData(p);
+        }
+        in.close();
         Sequence<HistogramWidget::BinData> binsData;
-        hist.getBins().inorder([&](const Interval &interval, const HistogramBin &bin) {
+        hist.getBins().inorder([&](const Interval &interval, const auto &bin) 
+        {
             HistogramWidget::BinData data;
-            data.lower = interval.lower;
-            data.upper = interval.upper;
-            data.count = bin.count;
+            data.lower = interval.getLower();
+            data.upper = interval.getUpper();
+            data.count = bin.getCount();
             binsData.append(data);
         });
         HistogramWidget *hw = new HistogramWidget();
@@ -322,7 +367,6 @@ void OpenDialog::onOpen()
     }
     else if (type == "Persons (salary)") 
     {
-        Sequence<Person> persons;
         std::ifstream in(fileName.toStdString());
         if (!in) 
         {
@@ -332,23 +376,31 @@ void OpenDialog::onOpen()
         std::string name;
         int age;
         double salary;
+        bool first = true;
+        double minSalary = 0, maxSalary = 0;
         while (in >> name >> age >> salary) 
         {
-            persons.append(Person(name, age, salary));
+            if (first) 
+            {
+                minSalary = salary;
+                maxSalary = salary;
+                first = false;
+            } 
+            else 
+            {
+                if (salary < minSalary) 
+                {
+                    minSalary = salary;
+                }
+                if (salary > maxSalary) 
+                {
+                    maxSalary = salary;
+                }
+            }
         }
-        in.close();
-        if (persons.getSize() == 0) 
-        {
-            QMessageBox::warning(this, "Error", "No data found");
-            return;
-        }
+        in.clear();
+        in.seekg(0);
         int numBins = 10;
-        double minSalary = persons[0].salary, maxSalary = persons[0].salary;
-        for (size_t i = 0; i < persons.getSize(); i++) 
-        {
-            if (persons[i].salary < minSalary) minSalary = persons[i].salary;
-            if (persons[i].salary > maxSalary) maxSalary = persons[i].salary;
-        }
         double binWidth = (maxSalary - minSalary) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -362,15 +414,20 @@ void OpenDialog::onOpen()
         {
             intervalsVec = customIntervals;
         }
-        Histogram<Person> hist(persons, [](const Person &p) -> double {
-            return p.salary;
-        }, intervalsVec);
+        Histogram<Person> hist([](const Person &p) -> double { return p.salary; }, intervalsVec);
+        while (in >> name >> age >> salary) 
+        {
+            Person p(name, age, salary);
+            hist.updateData(p);
+        }
+        in.close();
         Sequence<HistogramWidget::BinData> binsData;
-        hist.getBins().inorder([&](const Interval &interval, const HistogramBin &bin) {
+        hist.getBins().inorder([&](const Interval &interval, const auto &bin) 
+        {
             HistogramWidget::BinData data;
-            data.lower = interval.lower;
-            data.upper = interval.upper;
-            data.count = bin.count;
+            data.lower = interval.getLower();
+            data.upper = interval.getUpper();
+            data.count = bin.getCount();
             binsData.append(data);
         });
         HistogramWidget *hw = new HistogramWidget();

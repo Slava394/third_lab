@@ -19,16 +19,16 @@ void generateInts(size_t count, const std::string& filename)
     
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> intDist(-1000000, 1000000);
-    
+    std::normal_distribution<> intDist(0, 500000); 
+
     for (size_t i = 0; i < count; ++i) 
     {
-        int value = intDist(gen);
+        int value = std::round(intDist(gen)); 
         out << value << "\n";
     }
 
     out.close();
-    std::cout << "Generation of ints completed.\n";
+    std::cout << "Generation of normally distributed ints completed.\n";
 }
 
 void generatePoints(size_t count, const std::string& filename) 
@@ -43,8 +43,8 @@ void generatePoints(size_t count, const std::string& filename)
     
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> coordDist(-100000.0, 100000.0);
-    
+    std::normal_distribution<> coordDist(0.0, 50000.0); 
+
     for (size_t i = 0; i < count; ++i) 
     {
         double x = coordDist(gen);
@@ -53,7 +53,7 @@ void generatePoints(size_t count, const std::string& filename)
     }
 
     out.close();
-    std::cout << "Generation of points completed.\n";
+    std::cout << "Generation of normally distributed points completed.\n";
 }
 
 void generatePersons(size_t count, const std::string& filename) 
@@ -69,8 +69,8 @@ void generatePersons(size_t count, const std::string& filename)
     std::random_device rd;
     std::mt19937 gen(rd());
     
-    std::uniform_int_distribution<> ageDist(18, 65);              
-    std::uniform_real_distribution<> salaryDist(30000.0, 150000.0);   
+    std::normal_distribution<> ageDist(35, 10);     
+    std::normal_distribution<> salaryDist(75000.0, 20000.0);
     
     auto generateRandomName = [&gen]() -> std::string {
         std::string name;
@@ -88,11 +88,16 @@ void generatePersons(size_t count, const std::string& filename)
     for (size_t i = 0; i < count; ++i) 
     {
         std::string name = generateRandomName();
-        int age = ageDist(gen);
+        int age = std::round(ageDist(gen));
+        if (age < 18) age = 18; 
+        if (age > 65) age = 65; 
+
         double salary = salaryDist(gen);
+        if (salary < 30000.0) salary = 30000.0; 
+        if (salary > 150000.0) salary = 150000.0; 
         out << name << " " << age << " " << salary << "\n";
     }
 
     out.close();
-    std::cout << "Generation of persons completed.\n";
+    std::cout << "Generation of normally distributed persons completed.\n";
 }

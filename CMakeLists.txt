@@ -5,6 +5,7 @@ project(LastChance VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_BUILD_TYPE Release)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -13,6 +14,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/include/collection)
+include_directories(${CMAKE_SOURCE_DIR}/include/concept)
 include_directories(${CMAKE_SOURCE_DIR}/include/generator)
 include_directories(${CMAKE_SOURCE_DIR}/include/gui)
 include_directories(${CMAKE_SOURCE_DIR}/include/target)
@@ -20,6 +22,8 @@ include_directories(${CMAKE_SOURCE_DIR}/include/test)
 include_directories(${CMAKE_SOURCE_DIR}/include/type)
 
 set(BASE_SOURCES 
+    include/concept/Concept.h
+
     include/collection/AVLTree.h
 
     include/collection/ISet.h
