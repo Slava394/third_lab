@@ -47,6 +47,17 @@ private:
         }
     }
 
+    void validateIntervalsNonOverlapping(const Sequence<Interval>& sortedIntervals)
+    {
+        for (size_t i = 0; i + 1 < sortedIntervals.getSize(); ++i)
+        {
+            if (sortedIntervals.get(i).getUpper() > sortedIntervals.get(i + 1).getLower())
+            {
+                throw std::runtime_error("Intervals overlap at index " + std::to_string(i) + ".");
+            }
+        }
+    }
+
 public:
     Histogram(std::function<double(const T&)> valueExtractor_, const Sequence<Interval>& intervals_)
         : valueExtractor(valueExtractor_), intervals(intervals_)
@@ -54,6 +65,8 @@ public:
         QuickSorter<Interval> quickSorter;
         quickSorter.sort(intervals);
         
+        validateIntervalsNonOverlapping(intervals);
+
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {
@@ -67,6 +80,8 @@ public:
         QuickSorter<Interval> quickSorter;
         quickSorter.sort(intervals);
 
+        validateIntervalsNonOverlapping(intervals);
+
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {
@@ -79,6 +94,8 @@ public:
     {
         QuickSorter<Interval> quickSorter;
         quickSorter.sort(intervals);
+
+        validateIntervalsNonOverlapping(intervals);
 
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
@@ -98,6 +115,8 @@ public:
     {
         QuickSorter<Interval> quickSorter;
         quickSorter.sort(intervals);
+
+        validateIntervalsNonOverlapping(intervals);
 
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
