@@ -6,6 +6,7 @@
 #include "Sequence.h"    
 #include "Interval.h"      
 #include "HistogramBin.h"  
+#include "QuickSorter.h"
 
 
 template <typename T>
@@ -50,7 +51,9 @@ public:
     Histogram(std::function<double(const T&)> valueExtractor_, const Sequence<Interval>& intervals_)
         : valueExtractor(valueExtractor_), intervals(intervals_)
     {
-        intervals.sort();
+        QuickSorter<Interval> quickSorter;
+        quickSorter.sort(intervals);
+        
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {
@@ -61,7 +64,9 @@ public:
     Histogram(std::function<double(const T&)> valueExtractor_, Sequence<Interval>&& intervals_)
         : valueExtractor(valueExtractor_), intervals(std::move(intervals_))
     {
-        intervals.sort();
+        QuickSorter<Interval> quickSorter;
+        quickSorter.sort(intervals);
+
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {
@@ -72,7 +77,9 @@ public:
     Histogram(const Sequence<T>& data, std::function<double(const T&)> valueExtractor_, const Sequence<Interval>& intervals_)
         : valueExtractor(valueExtractor_), intervals(intervals_)
     {
-        intervals.sort();
+        QuickSorter<Interval> quickSorter;
+        quickSorter.sort(intervals);
+
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {
@@ -89,7 +96,9 @@ public:
     Histogram(const Sequence<T>& data, std::function<double(const T&)> valueExtractor_, Sequence<Interval>&& intervals_)
         : valueExtractor(valueExtractor_), intervals(std::move(intervals_))
     {
-        intervals.sort();
+        QuickSorter<Interval> quickSorter;
+        quickSorter.sort(intervals);
+
         size_t size = intervals.getSize();
         for (size_t i = 0; i < size; ++i) 
         {

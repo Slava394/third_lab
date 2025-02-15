@@ -17,6 +17,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include/collection)
 include_directories(${CMAKE_SOURCE_DIR}/include/concept)
 include_directories(${CMAKE_SOURCE_DIR}/include/generator)
 include_directories(${CMAKE_SOURCE_DIR}/include/gui)
+include_directories(${CMAKE_SOURCE_DIR}/include/sorter)
 include_directories(${CMAKE_SOURCE_DIR}/include/target)
 include_directories(${CMAKE_SOURCE_DIR}/include/test)
 include_directories(${CMAKE_SOURCE_DIR}/include/type)
@@ -35,6 +36,9 @@ set(BASE_SOURCES
     include/collection/Vector.h
     include/collection/ISequence.h
     include/collection/Sequence.h
+
+    include/sorter/ISorter.h
+    include/sorter/QuickSorter.h
 
     include/target/Interval.h
     include/target/HistogramBin.h

@@ -24,6 +24,12 @@ public:
         validateBounds(lower, upper);
     }
 
+    Interval(const Interval& other)
+    {
+        lower = other.lower;
+        upper = other.upper;
+    }
+
     bool contains(double x) const 
     {
         return x >= lower && x < upper;

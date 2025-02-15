@@ -20,6 +20,9 @@
 #include "Histogram.h"
 #include "Interval.h"
 
+#define DEFAULT_BIN_COUNT 15
+
+
 OpenDialog::OpenDialog(QWidget* parent) : QDialog(parent) 
 {
     setWindowTitle("Open Data and Build Histogram");
@@ -125,7 +128,7 @@ void OpenDialog::onOpen()
         }
         in.clear();
         in.seekg(0);
-        int numBins = 10;
+        int numBins = DEFAULT_BIN_COUNT;
         double binWidth = (maxVal == minVal) ? 1.0 : (maxVal - minVal) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -192,7 +195,7 @@ void OpenDialog::onOpen()
         }
         in.clear();
         in.seekg(0);
-        int numBins = 10;
+        int numBins = DEFAULT_BIN_COUNT;
         double binWidth = (maxX - minX) / numBins;
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -260,7 +263,7 @@ void OpenDialog::onOpen()
         }
         in.clear();
         in.seekg(0);
-        int numBins = 10;
+        int numBins = DEFAULT_BIN_COUNT;
         double binWidth = (maxY - minY) / numBins;
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -330,7 +333,7 @@ void OpenDialog::onOpen()
         }
         in.clear();
         in.seekg(0);
-        int numBins = 10;
+        int numBins = DEFAULT_BIN_COUNT;
         double binWidth = (maxAge - minAge) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
         if (!useCustom) 
@@ -400,7 +403,7 @@ void OpenDialog::onOpen()
         }
         in.clear();
         in.seekg(0);
-        int numBins = 10;
+        int numBins = DEFAULT_BIN_COUNT;
         double binWidth = (maxSalary - minSalary) / static_cast<double>(numBins);
         Sequence<Interval> intervalsVec;
         if (!useCustom) 

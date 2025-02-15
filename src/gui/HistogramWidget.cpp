@@ -35,7 +35,7 @@ void HistogramWidget::paintEvent(QPaintEvent* /*event*/)
     {
         int barHeight = (maxCount > 0) ? static_cast<int>((static_cast<double>(bins[i].count) / maxCount) * (height() - 50)) : 0;
         QRect rect(x, height() - barHeight - 20, barWidth, barHeight);
-        painter.setBrush(Qt::blue);
+        painter.setBrush(Qt::green);
         painter.drawRect(rect);
         painter.drawText(x, height() - barHeight - 25, QString::number(bins[i].count));
         QString label = QString("[%1, %2)").arg(bins[i].lower).arg(bins[i].upper);

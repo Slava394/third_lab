@@ -10,45 +10,6 @@ template <class T>
 class Sequence : public ISequence<T>
 {
 private:
-    void swap(T& a, T& b)
-    {
-        T temp = a;
-        a = b;
-        b = temp;
-    }
-
-    size_t hoarePartition(size_t left, size_t right)
-    {
-        T pivot = get(left);
-        size_t i = left;
-        size_t j = right;
-        while (true) 
-        {
-            while (get(j) > pivot) 
-            {
-                j--;
-            }
-            while (get(i) < pivot) 
-            {
-                i++;
-            }
-            if (i >= j) return j;
-            swap(get(i), get(j));
-            i++;
-            j--;
-        }
-    }
-
-    void quickSort(size_t left, size_t right) 
-    {
-        if (left < right) 
-        {
-            size_t pivotIndex = hoarePartition(left, right);
-            quickSort(left, pivotIndex);       
-            quickSort(pivotIndex + 1, right); 
-        }
-    }
-
     Vector<T> vector;
     
 public:
@@ -158,31 +119,6 @@ public:
     void removeAt(size_t index) override 
     { 
         vector.removeAt(index); 
-    }
-
-	size_t upperBound(const T& target) 
-	{
-		size_t left = 0;
-		size_t right = getSize();
-		while (left < right) 
-		{
-			size_t middle = left + (right - left) / 2;
-			if (get(middle) <= target)
-			{
-				left = middle + 1;
-			}
-			else
-			{
-				right = middle;
-			}
-		}
-		return right; 
-	}
-
-    void sort()
-    {
-        if (getSize() == 0) return;
-		quickSort(0, getSize() - 1);
     }
 
     bool empty() const
