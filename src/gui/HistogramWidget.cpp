@@ -3,7 +3,7 @@
 #include "HistogramWidget.h"
 
 
-HistogramWidget::HistogramWidget(QWidget *parent) : QWidget(parent) {}
+HistogramWidget::HistogramWidget(QWidget* parent) : QWidget(parent) {}
 
 void HistogramWidget::setBins(const Sequence<BinData>& binsData) 
 {
@@ -11,17 +11,21 @@ void HistogramWidget::setBins(const Sequence<BinData>& binsData)
     update();
 }
 
-void HistogramWidget::paintEvent(QPaintEvent * /*event*/) 
+void HistogramWidget::paintEvent(QPaintEvent* /*event*/) 
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     if (bins.empty())
+    {
         return;
+    }
     int maxCount = 0;
     for (size_t i = 0; i < bins.getSize(); i++) 
     {
         if (bins[i].count > maxCount)
+        {
             maxCount = bins[i].count;
+        }
     }
     int numBins = bins.getSize();
     int spacing = 10;

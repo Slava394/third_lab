@@ -20,13 +20,13 @@
 #include "Histogram.h"
 #include "Interval.h"
 
-OpenDialog::OpenDialog(QWidget *parent) : QDialog(parent) 
+OpenDialog::OpenDialog(QWidget* parent) : QDialog(parent) 
 {
     setWindowTitle("Open Data and Build Histogram");
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
 
-    QHBoxLayout *typeLayout = new QHBoxLayout();
-    QLabel *labelType = new QLabel("Object Type:");
+    QHBoxLayout* typeLayout = new QHBoxLayout();
+    QLabel* labelType = new QLabel("Object Type:");
     comboType = new QComboBox();
     comboType->addItem("Ints");
     comboType->addItem("Points (x)");
@@ -36,22 +36,22 @@ OpenDialog::OpenDialog(QWidget *parent) : QDialog(parent)
     typeLayout->addWidget(labelType);
     typeLayout->addWidget(comboType);
 
-    QHBoxLayout *fileLayout = new QHBoxLayout();
-    QLabel *labelFile = new QLabel("File:");
+    QHBoxLayout* fileLayout = new QHBoxLayout();
+    QLabel* labelFile = new QLabel("File:");
     lineEditFile = new QLineEdit();
-    QPushButton *btnBrowse = new QPushButton("Browse");
+    QPushButton* btnBrowse = new QPushButton("Browse");
     fileLayout->addWidget(labelFile);
     fileLayout->addWidget(lineEditFile);
     fileLayout->addWidget(btnBrowse);
 
-    QHBoxLayout *customLayout = new QHBoxLayout();
+    QHBoxLayout* customLayout = new QHBoxLayout();
     customCheckBox = new QCheckBox("Use custom intervals");
     btnDefineIntervals = new QPushButton("Define Intervals");
     btnDefineIntervals->setEnabled(false);
     customLayout->addWidget(customCheckBox);
     customLayout->addWidget(btnDefineIntervals);
 
-    QPushButton *btnOpen = new QPushButton("Open and Build Histogram");
+    QPushButton* btnOpen = new QPushButton("Open and Build Histogram");
 
     layout->addLayout(typeLayout);
     layout->addLayout(fileLayout);
@@ -154,7 +154,7 @@ void OpenDialog::onOpen()
             data.count = bin.getCount();
             binsData.append(data);
         });
-        HistogramWidget *hw = new HistogramWidget();
+        HistogramWidget* hw = new HistogramWidget();
         hw->setBins(binsData);
         emit histogramReady(hw);
         accept();
@@ -222,7 +222,7 @@ void OpenDialog::onOpen()
             data.count = bin.getCount();
             binsData.append(data);
         });
-        HistogramWidget *hw = new HistogramWidget();
+        HistogramWidget* hw = new HistogramWidget();
         hw->setBins(binsData);
         emit histogramReady(hw);
         accept();
@@ -290,7 +290,7 @@ void OpenDialog::onOpen()
             data.count = bin.getCount();
             binsData.append(data);
         });
-        HistogramWidget *hw = new HistogramWidget();
+        HistogramWidget* hw = new HistogramWidget();
         hw->setBins(binsData);
         emit histogramReady(hw);
         accept();
@@ -360,7 +360,7 @@ void OpenDialog::onOpen()
             data.count = bin.getCount();
             binsData.append(data);
         });
-        HistogramWidget *hw = new HistogramWidget();
+        HistogramWidget* hw = new HistogramWidget();
         hw->setBins(binsData);
         emit histogramReady(hw);
         accept();
@@ -430,7 +430,7 @@ void OpenDialog::onOpen()
             data.count = bin.getCount();
             binsData.append(data);
         });
-        HistogramWidget *hw = new HistogramWidget();
+        HistogramWidget* hw = new HistogramWidget();
         hw->setBins(binsData);
         emit histogramReady(hw);
         accept();

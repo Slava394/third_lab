@@ -16,10 +16,10 @@ public:
         int count;
     };
 
-    HistogramWidget(QWidget *parent = nullptr);
+    HistogramWidget(QWidget* parent = nullptr);
     void setBins(const Sequence<BinData>& binsData);
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 private:
     Sequence<BinData> bins;
 };

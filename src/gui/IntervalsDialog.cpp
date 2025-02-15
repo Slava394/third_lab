@@ -9,26 +9,26 @@
 #include "IntervalsDialog.h"
 
 
-IntervalsDialog::IntervalsDialog(QWidget *parent) : QDialog(parent) 
+IntervalsDialog::IntervalsDialog(QWidget* parent) : QDialog(parent) 
 {
     setWindowTitle("Define Intervals");
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
 
     table = new QTableWidget(0, 2, this);
     table->setHorizontalHeaderLabels(QStringList() << "Lower" << "Upper");
     table->horizontalHeader()->setStretchLastSection(true);
     layout->addWidget(table);
 
-    QHBoxLayout *btnLayout = new QHBoxLayout();
-    QPushButton *btnAdd = new QPushButton("Add Interval");
-    QPushButton *btnRemove = new QPushButton("Remove Selected");
+    QHBoxLayout* btnLayout = new QHBoxLayout();
+    QPushButton* btnAdd = new QPushButton("Add Interval");
+    QPushButton* btnRemove = new QPushButton("Remove Selected");
     btnLayout->addWidget(btnAdd);
     btnLayout->addWidget(btnRemove);
     layout->addLayout(btnLayout);
 
-    QHBoxLayout *okCancelLayout = new QHBoxLayout();
-    QPushButton *btnOk = new QPushButton("OK");
-    QPushButton *btnCancel = new QPushButton("Cancel");
+    QHBoxLayout* okCancelLayout = new QHBoxLayout();
+    QPushButton* btnOk = new QPushButton("OK");
+    QPushButton* btnCancel = new QPushButton("Cancel");
     okCancelLayout->addWidget(btnOk);
     okCancelLayout->addWidget(btnCancel);
     layout->addLayout(okCancelLayout);
@@ -48,8 +48,8 @@ void IntervalsDialog::onAddInterval()
 {
     int row = table->rowCount();
     table->insertRow(row);
-    QTableWidgetItem *itemLower = new QTableWidgetItem("0");
-    QTableWidgetItem *itemUpper = new QTableWidgetItem("1");
+    QTableWidgetItem* itemLower = new QTableWidgetItem("0");
+    QTableWidgetItem* itemUpper = new QTableWidgetItem("1");
     table->setItem(row, 0, itemLower);
     table->setItem(row, 1, itemUpper);
 }

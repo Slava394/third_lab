@@ -16,7 +16,7 @@ class OpenDialog : public QDialog
 {
     Q_OBJECT
 public:
-    OpenDialog(QWidget *parent = nullptr);
+    OpenDialog(QWidget* parent = nullptr);
 signals:
     void histogramReady(HistogramWidget *hw);
 private slots:
@@ -24,9 +24,9 @@ private slots:
     void onDefineIntervals();
     void onOpen();
 private:
-    QComboBox *comboType;
-    QLineEdit *lineEditFile;
-    QCheckBox *customCheckBox;
-    QPushButton *btnDefineIntervals;
+    QComboBox* comboType;
+    QLineEdit* lineEditFile;
+    QCheckBox* customCheckBox;
+    QPushButton* btnDefineIntervals;
     Sequence<Interval> customIntervals;
 };

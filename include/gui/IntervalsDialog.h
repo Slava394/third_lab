@@ -11,13 +11,13 @@ class IntervalsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    IntervalsDialog(QWidget *parent = nullptr);
+    IntervalsDialog(QWidget* parent = nullptr);
     const Sequence<Interval>& getIntervals() const;
 private slots:
     void onAddInterval();
     void onRemoveInterval();
     void onOk();
 private:
-    QTableWidget *table;
+    QTableWidget* table;
     Sequence<Interval> intervals;
 };

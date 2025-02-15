@@ -10,11 +10,11 @@ class GenerateDialog : public QDialog
 {
     Q_OBJECT
 public:
-    GenerateDialog(QWidget *parent = nullptr);
+    GenerateDialog(QWidget* parent = nullptr);
 private slots:
     void onGenerateClicked();
 private:
-    QComboBox *comboType;
-    QLineEdit *lineEditCount;
-    QLineEdit *lineEditFile;
+    QComboBox* comboType;
+    QLineEdit* lineEditCount;
+    QLineEdit* lineEditFile;
 };

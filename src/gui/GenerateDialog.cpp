@@ -10,13 +10,13 @@
 #include "Generator.h"
 
 
-GenerateDialog::GenerateDialog(QWidget *parent) : QDialog(parent) 
+GenerateDialog::GenerateDialog(QWidget* parent) : QDialog(parent) 
 {
     setWindowTitle("Generate Data");
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
 
-    QHBoxLayout *typeLayout = new QHBoxLayout();
-    QLabel *labelType = new QLabel("Generator Type:");
+    QHBoxLayout* typeLayout = new QHBoxLayout();
+    QLabel* labelType = new QLabel("Generator Type:");
     comboType = new QComboBox();
     comboType->addItem("Ints");
     comboType->addItem("Points");
@@ -24,19 +24,19 @@ GenerateDialog::GenerateDialog(QWidget *parent) : QDialog(parent)
     typeLayout->addWidget(labelType);
     typeLayout->addWidget(comboType);
 
-    QHBoxLayout *countLayout = new QHBoxLayout();
-    QLabel *labelCount = new QLabel("Number of Objects:");
-    lineEditCount = new QLineEdit("10000");
+    QHBoxLayout* countLayout = new QHBoxLayout();
+    QLabel* labelCount = new QLabel("Number of Objects:");
+    lineEditCount = new QLineEdit("100000");
     countLayout->addWidget(labelCount);
     countLayout->addWidget(lineEditCount);
 
-    QHBoxLayout *fileLayout = new QHBoxLayout();
-    QLabel *labelFile = new QLabel("File Name:");
+    QHBoxLayout* fileLayout = new QHBoxLayout();
+    QLabel* labelFile = new QLabel("File Name:");
     lineEditFile = new QLineEdit();
     fileLayout->addWidget(labelFile);
     fileLayout->addWidget(lineEditFile);
 
-    QPushButton *btnGenerate = new QPushButton("Generate");
+    QPushButton* btnGenerate = new QPushButton("Generate");
 
     layout->addLayout(typeLayout);
     layout->addLayout(countLayout);
