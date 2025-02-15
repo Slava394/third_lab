@@ -69,11 +69,4 @@ public:
     {
         return upper;
     }
-
-    void set(double newLower, double newUpper)
-    {
-        validateBounds(newLower, newUpper);
-        lower = newLower;
-        upper = newUpper;
-    }
 };

@@ -16,7 +16,7 @@ private:
 public:
     Set() {}
 
-    Set(std::initializer_list<K> initList)
+    Set(const std::initializer_list<K>& initList)
     {
         for (const auto& elem : initList)
         {

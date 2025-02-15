@@ -16,7 +16,7 @@ private:
 public:
     Dictionary() {}
 
-    Dictionary(std::initializer_list<std::pair<K, T>> initList)
+    Dictionary(const std::initializer_list<std::pair<K, T>>& initList)
     {
         for (const auto& elem : initList)
         {
